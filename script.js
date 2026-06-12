@@ -140,7 +140,7 @@ const projectData = {
     type: "Web App",
     description:
       "Sistem informasi manajemen fasilitas sekolah MAN 2 Kota Madiun. Memungkinkan guru dan staf untuk memesan ruangan dan aset sekolah secara digital — menggantikan proses manual yang lambat dan rawan konflik jadwal. Dibangun dengan UI yang bersih dan alur yang intuitif agar mudah digunakan oleh semua kalangan.",
-    stack: ["HTML", "CSS", "Bootstrap", "JavaScript"],
+    stack: ["HTML/CSS", "Tailwind", "PHP", "Laravel", "Filament"],
     url: "#",
     hasUrl: false,
     image: "arsada.jpg", // Ditambahkan properti gambar
@@ -150,8 +150,8 @@ const projectData = {
     subtitle: "Landing Page UMKM",
     type: "Landing Page",
     description:
-      'Landing page promosi untuk UMKM susu segar lokal. Dikerjakan end-to-end: riset kebutuhan pengguna, wireframe di Figma, hingga implementasi kode final. Fokus pada tipografi tebal, layout yang bersih, dan call-to-action yang mendorong konversi. Representasi nyata prinsip "software should empower people" — kali ini untuk pelaku UMKM.',
-    stack: ["Tailwind CSS", "JavaScript", "Figma", "UI/UX Design"],
+      'Landing page promosi untuk UMKM susu segar lokal. Fokus pada tipografi tebal, layout yang bersih, dan call-to-action yang mendorong konversi digital. Representasi nyata prinsip "software should empower people" — kali ini untuk pelaku UMKM.',
+    stack: ["HTML/CSS", "Tailwind CSS", "JavaScript", "BootStrap"],
     url: "#",
     hasUrl: false,
     image: "moobar1.jpg", // Ditambahkan properti gambar
