@@ -1,0 +1,463 @@
+/* ============================================================
+         STYLE.CSS — Portfolio Bhramadya Naffos
+         Versi 2.0 — Artisanal Scrapbook Theme
+         ============================================================ */
+
+/* === DARK MODE CSS VARIABLES ===
+         Logika bersih: hanya section TERANG yang berubah.
+         Section gelap (Showcase #18181b, Footer bg-ink) TIDAK DISENTUH sama sekali. */
+:root {
+  --paper: #fdfbf7;
+  --ink: #1c1917;
+  --surface: #ffffff;
+  --slate: #f1f5f9;
+  --ink-70: rgba(28, 25, 23, 0.7);
+  --ink-50: rgba(28, 25, 23, 0.5);
+  --ink-10: rgba(28, 25, 23, 0.1);
+  --torn-bg: #f4f0e6;
+  --torn-border: #e5dfd3;
+  --washi: rgba(234, 224, 200, 0.9);
+  --nav-bg: rgba(253, 251, 247, 0.85);
+  --hand-border: #1c1917;
+  --grid-line: rgba(28, 25, 23, 0.05);
+  --toggle-bg: #1c1917;
+  --toggle-thumb: #fdfbf7;
+  --toggle-icon-color: #1c1917;
+}
+
+/* Dark mode: teks gelap jadi terang, background terang jadi gelap.
+         Orange (#e05236) TIDAK DIUBAH. Section #projects dan footer TIDAK DIUBAH. */
+html.dark-mode {
+  --paper: #1e1b18;
+  --ink: #e8e2d9;
+  --surface: #2a2520;
+  --slate: #242018;
+  --ink-70: rgba(232, 226, 217, 0.7);
+  --ink-50: rgba(232, 226, 217, 0.5);
+  --ink-10: rgba(232, 226, 217, 0.12);
+  --torn-bg: #2e2a25;
+  --torn-border: #3d3830;
+  --washi: rgba(90, 82, 68, 0.6);
+  --nav-bg: rgba(30, 27, 24, 0.92);
+  --hand-border: #e8e2d9;
+  --grid-line: rgba(232, 226, 217, 0.04);
+  --toggle-bg: #e8e2d9;
+  --toggle-thumb: #1e1b18;
+  --toggle-icon-color: #e8e2d9;
+}
+
+/* === BASE BODY === */
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  overflow-x: hidden;
+  transition:
+    background-color 0.4s ease,
+    color 0.4s ease;
+}
+
+/* === NOISE OVERLAY — tetap di semua mode === */
+.noise-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.04;
+  background-image: url('data:image/svg+xml;utf8,%3Csvg viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg"%3E%3Cfilter id="noiseFilter"%3E%3CfeTurbulence type="fractalNoise" baseFrequency="0.65" numOctaves="3" stitchTiles="stitch"/%3E%3C/filter%3E%3Crect width="100%25" height="100%25" filter="url(%23noiseFilter)"/%3E%3C/svg%3E');
+}
+
+/* === GRID BACKGROUNDS === */
+.bg-grid-pattern {
+  background-color: var(--paper);
+  background-size: 30px 30px;
+  background-image:
+    linear-gradient(to right, var(--grid-line) 1px, transparent 1px),
+    linear-gradient(to bottom, var(--grid-line) 1px, transparent 1px);
+  transition: background-color 0.4s ease;
+}
+
+/* Section gelap showcase — TIDAK BERUBAH di dark mode, biarkan saja */
+.bg-grid-dark {
+  background-size: 30px 30px;
+  background-image:
+    linear-gradient(to right, rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+}
+
+/* === SIGNATURE UI ELEMENTS === */
+
+.torn-paper {
+  background-color: var(--torn-bg);
+  border: 1px solid var(--torn-border);
+  box-shadow: 2px 3px 6px rgba(0, 0, 0, 0.06);
+  clip-path: polygon(0% 2%, 100% 0%, 98% 100%, 1% 98%);
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.hand-drawn-border {
+  border: 2px solid var(--hand-border);
+  border-radius: 255px 15px 225px 15px / 15px 225px 15px 255px;
+  transition: border-color 0.4s ease;
+}
+
+.washi-tape-subtle {
+  position: absolute;
+  background-color: var(--washi);
+  height: 25px;
+  width: 100px;
+  box-shadow: 1px 1px 3px rgba(0, 0, 0, 0.05);
+  z-index: 20;
+  transition: background-color 0.4s ease;
+}
+
+/* === NAVBAR === */
+nav {
+  background-color: var(--nav-bg) !important;
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+/* === SECTION-SECTION TERANG === */
+#about {
+  background-color: var(--surface) !important;
+  transition: background-color 0.4s ease;
+}
+#experience {
+  background-color: var(--paper) !important;
+  transition: background-color 0.4s ease;
+}
+#contact {
+  background-color: var(--paper) !important;
+  transition: background-color 0.4s ease;
+}
+#contact .bg-white {
+  background-color: var(--surface) !important;
+  transition: background-color 0.4s ease;
+}
+#contact input,
+#contact textarea {
+  color: var(--ink) !important;
+  transition: color 0.3s ease;
+}
+#about .bg-paper {
+  background-color: var(--paper) !important;
+}
+#about .bg-slate-100 {
+  background-color: var(--slate) !important;
+}
+
+/* === DARK MODE TOGGLE BUTTON === */
+.theme-toggle-btn {
+  position: relative;
+  width: 50px;
+  height: 28px;
+  background-color: var(--toggle-bg);
+  border-radius: 9999px;
+  border: 1.5px solid var(--ink-10);
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  padding: 4px;
+  flex-shrink: 0;
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.theme-toggle-thumb {
+  width: 18px;
+  height: 18px;
+  background-color: var(--toggle-thumb);
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 11px;
+  line-height: 1;
+  color: var(--toggle-icon-color);
+  transform: translateX(0);
+  transition:
+    transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1),
+    background-color 0.4s ease,
+    color 0.4s ease;
+  user-select: none;
+}
+
+html.dark-mode .theme-toggle-thumb {
+  transform: translateX(22px);
+}
+
+/* === ANIMASI FLOAT === */
+@keyframes floatSlow {
+  0%,
+  100% {
+    transform: translateY(0) rotate(0deg);
+  }
+  50% {
+    transform: translateY(-10px) rotate(2deg);
+  }
+}
+.animate-float-slow {
+  animation: floatSlow 6s ease-in-out infinite;
+}
+
+/* === REVEAL ON SCROLL === */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition:
+    opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1),
+    transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+}
+.reveal.active {
+  opacity: 1;
+  transform: translateY(0);
+}
+.reveal-delay-1 {
+  transition-delay: 0.1s;
+}
+.reveal-delay-2 {
+  transition-delay: 0.2s;
+}
+.reveal-delay-3 {
+  transition-delay: 0.3s;
+}
+
+/* === MAGNETIC BUTTON === */
+.magnetic {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+/* === CUSTOM CURSOR === */
+.project-card:hover {
+  cursor: none;
+}
+
+/* ============================================================
+         EXPERIENCE TIMELINE — Artisanal Scrapbook Style
+         ============================================================ */
+
+.experience-timeline-line {
+  position: absolute;
+  left: 15px;
+  top: 8px;
+  bottom: 40px;
+  width: 2px;
+  background-image: repeating-linear-gradient(
+    to bottom,
+    var(--ink) 0px,
+    var(--ink) 5px,
+    transparent 5px,
+    transparent 13px
+  );
+  opacity: 0.2;
+  transition: opacity 0.4s ease;
+}
+
+.experience-item {
+  position: relative;
+  padding-bottom: 2.5rem;
+}
+.experience-item:last-of-type {
+  padding-bottom: 0.5rem;
+}
+
+.experience-dot {
+  position: absolute;
+  left: 7px;
+  top: 8px;
+  width: 18px;
+  height: 18px;
+  background-color: var(--paper);
+  border: 2.5px solid var(--ink);
+  border-radius: 50% 45% 55% 48% / 52% 50% 48% 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  z-index: 2;
+  transition:
+    transform 0.3s ease,
+    background-color 0.3s ease,
+    border-color 0.4s ease;
+}
+
+.experience-dot-inner {
+  width: 7px;
+  height: 7px;
+  background-color: #e05236;
+  border-radius: 50%;
+  opacity: 0;
+  transform: scale(0);
+  transition: all 0.3s cubic-bezier(0.34, 1.56, 0.64, 1);
+}
+
+.experience-item:hover .experience-dot {
+  background-color: var(--ink);
+  transform: scale(1.1);
+}
+.experience-item:hover .experience-dot-inner {
+  background-color: var(--paper);
+  opacity: 1;
+  transform: scale(1);
+}
+
+.experience-card {
+  position: relative;
+}
+
+.experience-card-inner {
+  background-color: var(--surface) !important;
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    box-shadow 0.4s ease,
+    background-color 0.4s ease;
+}
+.experience-item:hover .experience-card-inner {
+  transform: translateY(-4px);
+  box-shadow: 5px 5px 0px 0px rgba(224, 82, 54, 0.2);
+}
+
+.experience-tag {
+  display: inline-block;
+  font-family: "Courier Prime", monospace;
+  font-size: 0.7rem;
+  font-weight: 700;
+  color: var(--ink);
+  background-color: var(--torn-bg);
+  border: 1px solid var(--torn-border);
+  padding: 2px 10px;
+  clip-path: polygon(0% 2%, 100% 0%, 98% 100%, 1% 98%);
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease,
+    color 0.4s ease;
+}
+
+.experience-end-dot {
+  position: relative;
+  left: 11px;
+  width: 10px;
+  height: 10px;
+  background-color: #e05236;
+  border-radius: 50%;
+  opacity: 0.5;
+  margin-top: -8px;
+}
+
+/* ============================================================
+         PROJECT MODAL — Popup Deskripsi Proyek dengan Blur Latar
+         ============================================================ */
+
+.project-modal-overlay {
+  position: fixed;
+  inset: 0;
+  background: rgba(28, 25, 23, 0.7);
+  backdrop-filter: blur(10px);
+  -webkit-backdrop-filter: blur(10px);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1.5rem;
+  opacity: 0;
+  visibility: hidden;
+  transition:
+    opacity 0.35s ease,
+    visibility 0.35s ease;
+}
+
+.project-modal-overlay.active {
+  opacity: 1;
+  visibility: visible;
+}
+
+.project-modal-box {
+  background-color: var(--paper);
+  color: var(--ink);
+  max-width: 620px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  transform: translateY(30px) scale(0.97);
+  transition:
+    transform 0.4s cubic-bezier(0.16, 1, 0.3, 1),
+    background-color 0.4s ease;
+  scrollbar-width: thin;
+}
+
+.project-modal-overlay.active .project-modal-box {
+  transform: translateY(0) scale(1);
+}
+
+.modal-close-btn {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  width: 36px;
+  height: 36px;
+  border: 2px solid var(--ink);
+  border-radius: 50% 45% 55% 48% / 52% 50% 48% 50%;
+  background: transparent;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1rem;
+  color: var(--ink);
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    border-color 0.2s ease,
+    color 0.2s ease;
+  z-index: 10;
+}
+.modal-close-btn:hover {
+  background-color: #e05236;
+  border-color: #e05236;
+  color: white;
+  transform: rotate(90deg);
+}
+
+.modal-preview {
+  width: 100%;
+  aspect-ratio: 16/9;
+  background-color: var(--slate);
+  border-bottom: 2px solid var(--hand-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  transition:
+    background-color 0.4s ease,
+    border-color 0.4s ease;
+}
+
+.modal-visit-btn {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.5rem;
+  background-color: var(--ink);
+  color: var(--paper);
+  font-family: "Outfit", sans-serif;
+  font-weight: 700;
+  padding: 0.75rem 1.5rem;
+  border-radius: 6px;
+  text-decoration: none;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease,
+    color 0.2s ease;
+  font-size: 0.9rem;
+}
+.modal-visit-btn:hover {
+  background-color: #e05236;
+  color: white;
+  transform: translateY(-2px);
+}

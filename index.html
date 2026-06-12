@@ -1,0 +1,1110 @@
+<!doctype html>
+<html lang="id" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <!-- SEO & META TAGS -->
+    <title>Bhramadya | Web Developer Portfolio</title>
+    <meta
+      name="description"
+      content="Portofolio Bhramadya Naffos, Web Developer spesialis Frontend. Crafting thoughtful software and beautiful UI."
+    />
+    <meta name="author" content="Bhramadya Naffos" />
+
+    <!-- Open Graph -->
+    <meta property="og:title" content="Bhramadya Naffos | Web Developer" />
+    <meta
+      property="og:description"
+      content="Software should empower people. Portofolio dari siswa MAN 2 Kota Madiun."
+    />
+    <meta property="og:image" content="" />
+
+    <!-- Tailwind CSS via CDN -->
+    <script src="https://cdn.tailwindcss.com"></script>
+
+    <!-- Google Fonts & Phosphor Icons -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Courier+Prime:ital,wght@0,400;0,700;1,400&family=Kalam:wght@400;700&family=Outfit:wght@300;500;700;900&display=swap"
+      rel="stylesheet"
+    />
+    <script src="https://unpkg.com/@phosphor-icons/web"></script>
+
+    <!-- Konfigurasi Tema Tailwind Kustom -->
+    <script>
+      tailwind.config = {
+        theme: {
+          extend: {
+            fontFamily: {
+              clean: ["Outfit", "sans-serif"],
+              hand: ["Kalam", "cursive"],
+              type: ["Courier Prime", "monospace"],
+            },
+            colors: {
+              ink: "#1c1917",
+              paper: "#fdfbf7",
+              terracotta: "#e05236",
+              tape: "rgba(234, 224, 200, 0.8)",
+              "dark-section": "#18181b",
+            },
+            boxShadow: {
+              card: "4px 4px 0px 0px rgba(28,25,23,0.1)",
+              torn: "2px 3px 6px rgba(0,0,0,0.08), 0 0 0 1px rgba(0,0,0,0.02)",
+            },
+          },
+        },
+      };
+    </script>
+    <link rel="stylesheet" href="style.css" />
+    <script src="script.js" defer></script>
+  </head>
+
+  <body
+    class="font-clean antialiased selection:bg-terracotta selection:text-white"
+  >
+    <!-- Lapisan Tekstur Kertas (Noise) -->
+    <div class="noise-overlay"></div>
+
+    <!-- KURSOR CUSTOM -->
+    <div
+      id="project-cursor"
+      class="fixed top-0 left-0 w-20 h-20 bg-white/80 backdrop-blur-md border border-white rounded-full flex items-center justify-center font-type font-bold text-ink text-sm pointer-events-none opacity-0 z-[100] transform -translate-x-1/2 -translate-y-1/2 transition-opacity duration-300 shadow-[0_8px_30px_rgb(0,0,0,0.12)]"
+    >
+      Lihat
+    </div>
+
+    <!-- PROJECT MODAL OVERLAY -->
+    <div
+      id="projectModalOverlay"
+      class="project-modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="modalTitle"
+    >
+      <div class="project-modal-box hand-drawn-border">
+        <!-- Tombol tutup -->
+        <button id="modalCloseBtn" class="modal-close-btn" aria-label="Tutup">
+          <i class="ph ph-x"></i>
+        </button>
+
+        <!-- Preview gambar proyek -->
+        <div class="modal-preview relative overflow-hidden bg-slate-100">
+          <!-- Placeholder (Tampil jika tidak ada gambar) -->
+          <div
+            id="modalPlaceholder"
+            class="flex flex-col items-center justify-center text-center px-8 absolute inset-0 z-0"
+          >
+            <i
+              class="ph-thin ph-desktop text-6xl opacity-20 mb-3"
+              style="color: var(--ink)"
+            ></i>
+            <span class="font-type text-sm opacity-40" style="color: var(--ink)"
+              >[Screenshot Proyek]</span
+            >
+            <span
+              class="font-type text-xs opacity-30 mt-1"
+              style="color: var(--ink)"
+              >Ganti dengan &lt;img src="..."&gt;</span
+            >
+          </div>
+
+          <!-- Element Gambar (Ditambahkan ID agar bisa diisi oleh JS) -->
+          <img
+            id="modalImage"
+            src=""
+            alt="Preview Proyek"
+            class="w-full h-full object-cover relative z-10 hidden"
+          />
+        </div>
+
+        <!-- Konten modal -->
+        <div class="p-8">
+          <!-- Badge type -->
+          <div class="flex items-center gap-3 mb-4">
+            <span
+              id="modalType"
+              class="torn-paper font-type text-xs font-bold px-3 py-1"
+              style="color: var(--ink)"
+            ></span>
+          </div>
+
+          <!-- Judul & subtitle -->
+          <h2
+            id="modalTitle"
+            class="text-3xl font-black tracking-tight mb-1"
+            style="color: var(--ink)"
+          ></h2>
+          <p
+            id="modalSubtitle"
+            class="font-hand text-lg mb-4"
+            style="color: #e05236"
+          ></p>
+
+          <!-- Garis pemisah hand-drawn -->
+          <div
+            class="border-t-2 border-dashed mb-5"
+            style="border-color: var(--ink-10, rgba(28, 25, 23, 0.1))"
+          ></div>
+
+          <!-- Deskripsi -->
+          <p
+            id="modalDescription"
+            class="font-medium leading-relaxed mb-6 text-base"
+            style="color: var(--ink-70, rgba(28, 25, 23, 0.7))"
+          ></p>
+
+          <!-- Stack tags -->
+          <div class="mb-2">
+            <span class="font-hand text-sm mb-2 block" style="color: var(--ink)"
+              >Tech Stack:</span
+            >
+            <div id="modalStack" class="flex flex-wrap gap-2 mt-2"></div>
+          </div>
+
+          <!-- Tombol kunjungi -->
+          <div
+            class="mt-8 pt-5 border-t"
+            style="border-color: var(--ink-10, rgba(28, 25, 23, 0.1))"
+          >
+            <a
+              id="modalVisitBtn"
+              href="#"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="modal-visit-btn"
+            >
+              Kunjungi Website <i class="ph ph-arrow-up-right"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- ================================================ -->
+    <!-- NAVBAR                                           -->
+    <!-- ================================================ -->
+    <nav
+      class="fixed top-0 w-full backdrop-blur-md border-b z-50"
+      style="border-color: var(--ink-10, rgba(28, 25, 23, 0.1))"
+    >
+      <div
+        class="max-w-6xl mx-auto px-6 py-4 flex justify-between items-center reveal active"
+      >
+        <a
+          href="#home"
+          class="font-clean font-black text-2xl tracking-tighter flex items-center gap-1 group"
+          style="color: var(--ink)"
+        >
+          <span
+            class="transform group-hover:-rotate-6 transition-transform inline-block"
+            >Bhram.</span
+          >
+        </a>
+
+        <!-- Nav links -->
+        <div
+          class="hidden md:flex gap-10 font-medium text-sm tracking-wide"
+          style="color: var(--ink)"
+        >
+          <a
+            href="#about"
+            class="hover:text-terracotta transition-colors relative group"
+            style="color: var(--ink)"
+          >
+            Profil
+            <span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-terracotta transition-all group-hover:w-full"
+            ></span>
+          </a>
+          <a
+            href="#experience"
+            class="hover:text-terracotta transition-colors relative group"
+            style="color: var(--ink)"
+          >
+            Pengalaman
+            <span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-terracotta transition-all group-hover:w-full"
+            ></span>
+          </a>
+          <a
+            href="#projects"
+            class="hover:text-terracotta transition-colors relative group"
+            style="color: var(--ink)"
+          >
+            Karya
+            <span
+              class="absolute -bottom-1 left-0 w-0 h-0.5 bg-terracotta transition-all group-hover:w-full"
+            ></span>
+          </a>
+        </div>
+
+        <!-- Dark Mode Toggle + CTA -->
+        <div class="flex items-center gap-4">
+          <!-- Toggle dark/light mode -->
+          <button
+            id="darkModeToggle"
+            class="theme-toggle-btn"
+            aria-label="Toggle Dark Mode"
+            title="Ganti tema gelap/terang"
+          >
+            <span class="theme-toggle-thumb">☀</span>
+          </button>
+
+          <div class="magnetic-wrap hidden md:inline-block">
+            <a
+              href="#contact"
+              class="magnetic inline-flex items-center gap-2 hand-drawn-border bg-white px-5 py-2 font-hand font-bold shadow-card hover:shadow-torn transition-shadow"
+              style="color: var(--ink); background-color: var(--surface)"
+            >
+              Sapa Saya <i class="ph ph-hand-waving"></i>
+            </a>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <!-- ================================================ -->
+    <!-- HERO SECTION                                     -->
+    <!-- ================================================ -->
+    <section
+      id="home"
+      class="min-h-screen bg-grid-pattern flex flex-col justify-center items-center pt-24 px-4 md:px-6 relative w-full max-w-[100vw] overflow-hidden"
+    >
+      <div
+        class="absolute top-32 left-10 md:left-24 animate-float-slow opacity-60 text-terracotta"
+      >
+        <svg
+          width="100"
+          height="100"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.5"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path
+            d="M12 22c-2.5-4-5.5-6-5.5-10a5.5 5.5 0 0 1 11 0c0 4-3 6-5.5 10Z"
+          />
+          <path d="M12 12a2 2 0 1 0 0-4 2 2 0 0 0 0 4Z" />
+          <path d="M12 22v-4" />
+        </svg>
+      </div>
+      <div
+        class="absolute bottom-32 right-10 md:right-32 animate-float-slow opacity-50"
+        style="animation-delay: 2s; color: var(--ink)"
+      >
+        <svg
+          width="80"
+          height="80"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="1.2"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <path d="M16 7h.01" />
+          <path d="M3.4 18H12a8 8 0 0 0 8-8V7a4 4 0 0 0-7.28-2.3L2 20" />
+          <path d="m20 7 2 .5-2 .5" />
+          <path d="M10 18v3" />
+          <path d="M14 17.75V21" />
+          <path d="M7 18a6 6 0 0 0 3.84-10.61" />
+        </svg>
+      </div>
+
+      <div
+        class="max-w-4xl w-full flex flex-col items-center justify-center relative z-10"
+      >
+        <div
+          class="absolute -top-12 md:-top-16 -left-4 md:-left-12 transform -rotate-6 z-20 reveal active reveal-delay-2"
+        >
+          <div
+            class="torn-paper px-4 py-2 font-type text-sm opacity-90"
+            style="color: var(--ink-70, rgba(28, 25, 23, 0.8))"
+          >
+            fokus pengguna.
+          </div>
+        </div>
+        <div
+          class="absolute top-20 -right-4 md:-right-20 transform rotate-3 z-20 reveal active reveal-delay-3"
+        >
+          <div
+            class="torn-paper px-4 py-2 font-type text-sm opacity-90"
+            style="color: var(--ink-70, rgba(28, 25, 23, 0.8))"
+          >
+            ciptakan dampak.
+          </div>
+        </div>
+
+        <div
+          class="font-hand text-terracotta text-2xl md:text-3xl mb-4 transform -rotate-2 reveal active"
+        >
+          Halo, saya Bhramadya Soffan Wicaksana
+        </div>
+
+        <h1
+          class="text-6xl md:text-8xl lg:text-[7rem] font-black tracking-tighter leading-none text-center mb-6 drop-shadow-sm reveal active reveal-delay-1"
+          style="color: var(--ink)"
+        >
+          Software should <br />
+          <span
+            class="font-hand font-normal text-5xl md:text-7xl lg:text-8xl text-terracotta transform inline-block -rotate-2 mt-4"
+            >empower people.</span
+          >
+        </h1>
+
+        <p
+          class="text-center font-medium text-lg md:text-xl max-w-xl mt-6 reveal active reveal-delay-2"
+          style="color: var(--ink-70, rgba(28, 25, 23, 0.7))"
+        >
+          Menghubungkan teknologi dengan kebutuhan manusia. Saya merakit
+          aplikasi web interaktif yang berfokus pada fungsionalitas dan
+          pengalaman yang bermakna.
+        </p>
+
+        <div
+          class="mt-12 flex items-center justify-center gap-6 reveal active reveal-delay-3"
+        >
+          <a
+            href="#projects"
+            class="font-type font-bold border-b-2 pb-1 hover:text-terracotta hover:border-terracotta transition-all flex items-center gap-2"
+            style="color: var(--ink); border-color: var(--ink)"
+          >
+            Lihat Karya <i class="ph ph-arrow-down-right"></i>
+          </a>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================ -->
+    <!-- ABOUT SECTION                                    -->
+    <!-- ================================================ -->
+    <section
+      id="about"
+      class="py-24 px-6 border-y relative"
+      style="border-color: var(--ink-10, rgba(28, 25, 23, 0.1))"
+    >
+      <div
+        class="max-w-5xl mx-auto flex flex-col md:flex-row gap-16 items-center"
+      >
+        <div class="w-full md:w-5/12 relative group reveal">
+          <div
+            class="washi-tape-subtle -top-3 left-1/2 -translate-x-1/2 -rotate-2"
+          ></div>
+          <div
+            class="aspect-[4/5] p-4 hand-drawn-border relative overflow-hidden"
+            style="background-color: var(--paper)"
+          >
+            <div
+              class="w-full h-full border flex flex-col items-center justify-center relative transform group-hover:scale-105 transition-transform duration-700"
+              style="
+                background-color: var(--slate);
+                border-color: var(--ink-10, rgba(28, 25, 23, 0.2));
+              "
+            >
+              <img src="profileimg.jpeg" class="w-full h-full object-cover" />
+            </div>
+          </div>
+          <div
+            class="absolute -right-8 bottom-12 text-terracotta hidden md:block"
+          >
+            <svg
+              width="60"
+              height="60"
+              viewBox="0 0 24 24"
+              fill="none"
+              stroke="currentColor"
+              stroke-width="2"
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              class="transform -rotate-12"
+            >
+              <path d="M5 12h14" />
+              <path d="m12 5 7 7-7 7" />
+            </svg>
+          </div>
+        </div>
+
+        <div class="w-full md:w-7/12 reveal reveal-delay-1">
+          <div
+            class="font-type text-terracotta text-sm mb-4 tracking-widest uppercase"
+          >
+            / Tentang Saya
+          </div>
+          <h2
+            class="text-4xl md:text-5xl font-bold tracking-tight mb-6"
+            style="color: var(--ink)"
+          >
+            Tumbuh &amp; belajar di
+            <span class="font-hand font-normal text-terracotta text-5xl"
+              >MAN 2 Kota Madiun.</span
+            >
+          </h2>
+          <p
+            class="text-lg mb-8 leading-relaxed font-medium"
+            style="color: var(--ink-70, rgba(28, 25, 23, 0.7))"
+          >
+            Saya memiliki passion dalam membangun teknologi yang tidak hanya
+            bekerja dengan baik, tetapi juga mempermudah hidup penggunanya. Dari
+            meracik UI yang intuitif hingga menyusun logika backend yang kokoh,
+            fokus utama saya adalah menciptakan dampak positif melalui setiap
+            baris kode.
+          </p>
+          <div class="space-y-4">
+            <div class="font-hand text-xl" style="color: var(--ink)">
+              Tech Stack &amp; Tools:
+            </div>
+            <div class="flex flex-wrap gap-3">
+              <span
+                class="torn-paper px-4 py-1.5 font-type text-sm font-bold hover:-translate-y-0.5 transition-transform cursor-default"
+                style="color: var(--ink)"
+                >HTML/CSS</span
+              >
+              <span
+                class="torn-paper px-4 py-1.5 font-type text-sm font-bold hover:-translate-y-0.5 transition-transform cursor-default"
+                style="color: var(--ink)"
+                >JavaScript</span
+              >
+              <span
+                class="torn-paper px-4 py-1.5 font-type text-sm font-bold hover:-translate-y-0.5 transition-transform cursor-default"
+                style="color: var(--ink)"
+                >Tailwind</span
+              >
+              <span
+                class="torn-paper px-4 py-1.5 font-type text-sm font-bold hover:-translate-y-0.5 transition-transform cursor-default"
+                style="color: var(--ink)"
+                >CodeIgniter</span
+              >
+              <span
+                class="torn-paper px-4 py-1.5 font-type text-sm font-bold text-terracotta hover:-translate-y-0.5 transition-transform cursor-default"
+                >Laravel</span
+              >
+              <span
+                class="torn-paper px-4 py-1.5 font-type text-sm font-bold hover:-translate-y-0.5 transition-transform cursor-default"
+                style="color: var(--ink)"
+                >MySQL</span
+              >
+              <span
+                class="torn-paper px-4 py-1.5 font-type text-sm font-bold hover:-translate-y-0.5 transition-transform cursor-default"
+                style="color: var(--ink)"
+                >Figma</span
+              >
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================ -->
+    <!-- EXPERIENCE SECTION                               -->
+    <!-- ================================================ -->
+    <section id="experience" class="py-24 px-6 relative overflow-hidden">
+      <!-- Doodle dekoratif latar -->
+      <div
+        class="absolute top-16 right-8 opacity-5 pointer-events-none"
+        style="color: var(--ink)"
+      >
+        <svg
+          width="180"
+          height="180"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          stroke-width="0.8"
+          stroke-linecap="round"
+          stroke-linejoin="round"
+        >
+          <rect x="3" y="4" width="18" height="18" rx="2" ry="2"></rect>
+          <line x1="16" y1="2" x2="16" y2="6"></line>
+          <line x1="8" y1="2" x2="8" y2="6"></line>
+          <line x1="3" y1="10" x2="21" y2="10"></line>
+        </svg>
+      </div>
+
+      <div class="max-w-4xl mx-auto">
+        <!-- Header -->
+        <div class="mb-16 reveal">
+          <div
+            class="font-type text-terracotta text-sm mb-3 tracking-widest uppercase"
+          >
+            / Perjalanan Saya
+          </div>
+          <h2
+            class="text-4xl md:text-5xl font-bold tracking-tight"
+            style="color: var(--ink)"
+          >
+            Pengalaman
+            <span class="font-hand font-normal text-terracotta text-5xl"
+              >&amp; Jejak.</span
+            >
+          </h2>
+          <p
+            class="mt-4 font-medium max-w-md"
+            style="color: var(--ink-70, rgba(28, 25, 23, 0.6))"
+          >
+            Setiap tahap adalah bahan bakar. Setiap proyek adalah pelajaran.
+          </p>
+        </div>
+
+        <!-- Timeline -->
+        <div class="relative">
+          <div class="experience-timeline-line"></div>
+
+          <!-- ITEM 1 — TERBARU: ARSADA / Frontend Developer -->
+          <div class="experience-item reveal">
+            <div class="experience-dot">
+              <span class="experience-dot-inner"></span>
+            </div>
+            <div class="experience-card ml-12 md:ml-16">
+              <div class="washi-tape-subtle -top-3 left-6 -rotate-1 z-10"></div>
+              <div class="experience-card-inner hand-drawn-border p-6 relative">
+                <div
+                  class="torn-paper inline-block px-3 py-1 font-type text-xs font-bold text-terracotta mb-4"
+                >
+                  2026 — Sekarang
+                </div>
+                <div
+                  class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3"
+                >
+                  <h3
+                    class="text-xl font-bold tracking-tight"
+                    style="color: var(--ink)"
+                  >
+                    Frontend Engineer
+                  </h3>
+                  <span
+                    class="font-hand text-base text-terracotta transform -rotate-1 inline-block"
+                    >MAN 2 Kota Madiun</span
+                  >
+                </div>
+                <p
+                  class="font-medium leading-relaxed mb-4"
+                  style="color: var(--ink-70, rgba(28, 25, 23, 0.7))"
+                >
+                  Membangun
+                  <strong style="color: var(--ink)"
+                    >arsitektur frontend dan komponen interaktif</strong
+                  >
+                  untuk web aplikasi ARSADA. Berfokus pada optimasi performa UI
+                  serta logika formulir kompleks agar sistem reservasi berjalan
+                  dengan cepat, aman, dan responsif.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="experience-tag">Laravel</span>
+                  <span class="experience-tag">Filament PHP</span>
+                  <span class="experience-tag">UI Component</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="experience-item reveal reveal-delay-1">
+            <div class="experience-dot">
+              <span class="experience-dot-inner"></span>
+            </div>
+            <div class="experience-card ml-12 md:ml-16">
+              <div class="washi-tape-subtle -top-3 right-6 rotate-2 z-10"></div>
+              <div class="experience-card-inner hand-drawn-border p-6 relative">
+                <div
+                  class="torn-paper inline-block px-3 py-1 font-type text-xs font-bold text-terracotta mb-4"
+                >
+                  2025
+                </div>
+                <div
+                  class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3"
+                >
+                  <h3
+                    class="text-xl font-bold tracking-tight"
+                    style="color: var(--ink)"
+                  >
+                    Kunjungan Industri
+                  </h3>
+                  <span
+                    class="font-hand text-base text-terracotta transform rotate-1 inline-block"
+                    >Educa Studio, Yogyakarta</span
+                  >
+                </div>
+                <p
+                  class="font-medium leading-relaxed mb-4"
+                  style="color: var(--ink-70, rgba(28, 25, 23, 0.7))"
+                >
+                  Mempelajari standar kerja industri teknologi di Educa Studio,
+                  Yogyakarta. Fokus pada manajemen proyek, alur kolaborasi tim,
+                  dan optimasi performa produk digital. Wawasan ini saya
+                  terapkan untuk membangun proyek web yang
+                  <strong style="color: var(--ink)"
+                    >lebih efisien, terstruktur, dan berstandar
+                    profesional</strong
+                  >.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="experience-tag">Alur Kerja</span>
+                  <span class="experience-tag">Manajemen Proyek</span>
+                  <span class="experience-tag">Optimasi Produk</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="experience-item reveal reveal-delay-2">
+            <div class="experience-dot">
+              <span class="experience-dot-inner"></span>
+            </div>
+            <div class="experience-card ml-12 md:ml-16">
+              <div class="experience-card-inner hand-drawn-border p-6 relative">
+                <div
+                  class="torn-paper inline-block px-3 py-1 font-type text-xs font-bold text-terracotta mb-4"
+                >
+                  2024
+                </div>
+                <div
+                  class="flex flex-col md:flex-row md:items-center justify-between gap-2 mb-3"
+                >
+                  <h3
+                    class="text-xl font-bold tracking-tight"
+                    style="color: var(--ink)"
+                  >
+                    Mulai dari Nol
+                  </h3>
+                  <span
+                    class="font-hand text-base text-terracotta transform -rotate-1 inline-block"
+                    >MAN 2 Kota Madiun</span
+                  >
+                </div>
+                <p
+                  class="font-medium leading-relaxed mb-4"
+                  style="color: var(--ink-70, rgba(28, 25, 23, 0.7))"
+                >
+                  Di sinilah semuanya bermula. Baris kode pertama, bug pertama,
+                  rasa puas pertama saat sesuatu berhasil berjalan. Mempelajari
+                  <strong style="color: var(--ink)"
+                    >dasar-dasar web development</strong
+                  >
+                  dari HTML, CSS, hingga logika pemrograman — dan menemukan
+                  bahwa membuat sesuatu dari kode itu membuat saya semakin
+                  tertantang untuk terus mengeksplorasi dunia pemrograman.
+                </p>
+                <div class="flex flex-wrap gap-2">
+                  <span class="experience-tag">Fondasi Web</span>
+                  <span class="experience-tag">Logika Pemrograman</span>
+                  <span class="experience-tag">Dasar PHP</span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <!-- Titik akhir garis timeline -->
+          <div class="experience-end-dot"></div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================ -->
+    <!-- PROJECTS / SHOWCASE SECTION                      -->
+    <!-- ================================================ -->
+    <section
+      id="projects"
+      class="py-24 px-6 bg-dark-section bg-grid-dark text-white relative"
+    >
+      <div class="max-w-6xl mx-auto relative z-10">
+        <div
+          class="flex flex-col md:flex-row justify-between items-end mb-16 gap-6 reveal"
+        >
+          <div>
+            <h2 class="text-5xl md:text-6xl font-black tracking-tight mb-2">
+              Showcase.
+            </h2>
+            <p class="font-hand text-2xl text-terracotta">My Karya-Karya</p>
+          </div>
+          <div
+            class="torn-paper bg-white text-ink px-4 py-2 font-type text-xs transform rotate-2 max-w-[200px] hover:rotate-0 transition-transform"
+          >
+            "Code that makes a difference."
+          </div>
+        </div>
+
+        <!-- Grid 2 kolom, 2 baris = 4 kartu -->
+        <div class="grid md:grid-cols-2 gap-10 md:gap-16">
+          <!-- KARYA 1: ARSADA -->
+          <article class="group project-card reveal" data-project="arsada">
+            <div class="washi-tape-subtle -top-3 right-10 rotate-3 z-20"></div>
+            <div
+              class="bg-paper p-4 hand-drawn-border mb-6 transform transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-[8px_8px_0_0_#e05236] relative"
+            >
+              <div
+                class="aspect-[16/10] border border-ink/20 bg-slate-200 overflow-hidden relative"
+              >
+                <div
+                  class="w-full h-full flex flex-col items-center justify-center bg-white text-ink group-hover:scale-105 transition-transform duration-700"
+                >
+                  <img src="arsada.jpg" class="w-full h-full object-cover" />
+                  <span class="font-hand text-xl text-ink/30"
+                    >[Image ARSADA]</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h3
+                  class="text-2xl font-bold tracking-tight text-white group-hover:text-terracotta transition-colors"
+                >
+                  ARSADA
+                </h3>
+                <span
+                  class="font-type text-xs text-white/50 border border-white/20 px-2 py-1 rounded-full"
+                  >Web App</span
+                >
+              </div>
+              <p class="text-white/70 font-medium mb-4">
+                Aplikasi Reservasi Sarana &amp; Aset MAN 2 Kota Madiun.
+                Manajemen fasilitas dengan UI yang bersih dan intuitif.
+              </p>
+              <div class="flex gap-4 font-type text-xs text-terracotta">
+                <span>#HTML</span><span>#CSS</span><span>#Bootstrap</span>
+              </div>
+              <!-- Hint klik -->
+              <div
+                class="mt-3 font-type text-xs text-white/30 flex items-center gap-1"
+              >
+                <i class="ph ph-cursor-click"></i> Klik untuk detail
+              </div>
+            </div>
+          </article>
+
+          <!-- KARYA 2: MOOBAR -->
+          <article
+            class="group project-card md:mt-16 reveal reveal-delay-1"
+            data-project="moobar"
+          >
+            <div class="washi-tape-subtle -top-3 left-10 -rotate-3 z-20"></div>
+            <div
+              class="bg-paper p-4 hand-drawn-border mb-6 transform transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-[8px_8px_0_0_#e05236] relative"
+            >
+              <div
+                class="aspect-[16/10] border border-ink/20 bg-slate-200 overflow-hidden relative"
+              >
+                <div
+                  class="w-full h-full flex flex-col items-center justify-center bg-white text-ink group-hover:scale-105 transition-transform duration-700"
+                >
+                  <img src="moobar1.jpg" class="w-full h-full object-cover" />
+                  <span class="font-hand text-xl text-ink/30"
+                    >[Image MOOBAR]</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h3
+                  class="text-2xl font-bold tracking-tight text-white group-hover:text-terracotta transition-colors"
+                >
+                  MOOBAR Fresh Milk
+                </h3>
+                <span
+                  class="font-type text-xs text-white/50 border border-white/20 px-2 py-1 rounded-full"
+                  >Landing Page</span
+                >
+              </div>
+              <p class="text-white/70 font-medium mb-4">
+                Desain web promosi UMKM susu segar. Tipografi tebal, card-layout
+                bersih, dan fokus pada konversi pengguna.
+              </p>
+              <div class="flex gap-4 font-type text-xs text-terracotta">
+                <span>#Tailwind</span><span>#JS</span><span>#UI/UX</span>
+              </div>
+              <div
+                class="mt-3 font-type text-xs text-white/30 flex items-center gap-1"
+              >
+                <i class="ph ph-cursor-click"></i> Klik untuk detail
+              </div>
+            </div>
+          </article>
+
+          <!-- KARYA 3: LAPORCUAN BOT -->
+          <article
+            class="group project-card reveal reveal-delay-2"
+            data-project="laporcuan"
+          >
+            <div class="washi-tape-subtle -top-3 right-10 -rotate-2 z-20"></div>
+            <div
+              class="bg-paper p-4 hand-drawn-border mb-6 transform transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-[8px_8px_0_0_#e05236] relative"
+            >
+              <div
+                class="aspect-[16/10] border border-ink/20 bg-slate-200 overflow-hidden relative"
+              >
+                <div
+                  class="w-full h-full flex flex-col items-center justify-center bg-white text-ink group-hover:scale-105 transition-transform duration-700 relative"
+                >
+                  <!-- Ganti laporcuan.jpg dengan screenshot aslinya nanti -->
+                  <img
+                    src="botte.jpg"
+                    alt="LaporCuan Bot"
+                    class="w-full h-full object-cover absolute inset-0 z-10"
+                    onerror="this.style.display = 'none'"
+                  />
+                  <!-- Fallback Icon jika gambar belum ada -->
+                  <div
+                    class="flex flex-col items-center justify-center relative z-0"
+                  >
+                    <i
+                      class="ph-thin ph-telegram-logo text-6xl text-ink/40 mb-2"
+                    ></i>
+                    <span class="font-hand text-xl text-ink/30"
+                      >[Bot LaporCuan]</span
+                    >
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h3
+                  class="text-2xl font-bold tracking-tight text-white group-hover:text-terracotta transition-colors"
+                >
+                  LaporCuan Bot
+                </h3>
+                <span
+                  class="font-type text-xs text-white/50 border border-white/20 px-2 py-1 rounded-full"
+                  >Telegram Bot</span
+                >
+              </div>
+              <p class="text-white/70 font-medium mb-4">
+                Bot pencatat keuangan serverless (@LaporDuit_bot). Menghubungkan
+                interaksi chat pengguna langsung dengan Google Sheets.
+                Pendekatan zero-friction untuk kelola duit harian.
+              </p>
+              <div class="flex gap-4 font-type text-xs text-terracotta">
+                <span>#AppsScript</span><span>#TelegramAPI</span
+                ><span>#Sheets</span>
+              </div>
+              <div
+                class="mt-3 font-type text-xs text-white/30 flex items-center gap-1"
+              >
+                <i class="ph ph-cursor-click"></i> Klik untuk detail
+              </div>
+            </div>
+          </article>
+
+          <!-- KARYA 4: PLACEHOLDER -->
+          <article
+            class="group project-card md:mt-16 reveal reveal-delay-3"
+            data-project="placeholder2"
+          >
+            <div class="washi-tape-subtle -top-3 left-10 rotate-3 z-20"></div>
+            <div
+              class="bg-paper p-4 hand-drawn-border mb-6 transform transition-transform duration-500 group-hover:-translate-y-2 group-hover:shadow-[8px_8px_0_0_#e05236] relative"
+            >
+              <div
+                class="aspect-[16/10] border border-ink/20 bg-slate-200 overflow-hidden relative"
+              >
+                <div
+                  class="w-full h-full flex flex-col items-center justify-center bg-white text-ink group-hover:scale-105 transition-transform duration-700"
+                >
+                  <i
+                    class="ph-thin ph-plus-circle text-6xl text-ink/40 mb-2"
+                  ></i>
+                  <span class="font-hand text-xl text-ink/30"
+                    >[Proyek Baru]</span
+                  >
+                </div>
+              </div>
+            </div>
+            <div>
+              <div class="flex items-center justify-between mb-2">
+                <h3
+                  class="text-2xl font-bold tracking-tight text-white/40 group-hover:text-terracotta transition-colors"
+                >
+                  Proyek Segera
+                </h3>
+                <span
+                  class="font-type text-xs text-white/30 border border-white/10 px-2 py-1 rounded-full"
+                  >Upcoming</span
+                >
+              </div>
+              <p class="text-white/40 font-medium mb-4">
+                Proyek berikutnya sedang dalam pengerjaan. Pantau terus
+                perkembangannya.
+              </p>
+              <div class="flex gap-4 font-type text-xs text-terracotta/50">
+                <span>#TBA</span>
+              </div>
+              <div
+                class="mt-3 font-type text-xs text-white/20 flex items-center gap-1"
+              >
+                <i class="ph ph-clock"></i> Coming soon
+              </div>
+            </div>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================ -->
+    <!-- CONTACT SECTION                                  -->
+    <!-- ================================================ -->
+    <section
+      id="contact"
+      class="py-24 px-4 md:px-6 w-full overflow-hidden relative"
+    >
+      <div
+        class="max-w-4xl mx-auto flex flex-col md:flex-row gap-12 items-center"
+      >
+        <div class="w-full md:w-5/12 reveal">
+          <div
+            class="absolute left-4 top-20 animate-float-slow"
+            style="color: var(--ink-10, rgba(28, 25, 23, 0.1))"
+          >
+            <i class="ph-fill ph-asterisk text-8xl"></i>
+          </div>
+          <h2
+            class="text-5xl md:text-6xl font-black mb-4"
+            style="color: var(--ink)"
+          >
+            Ayo Buat <br /><span class="text-terracotta font-hand font-normal"
+              >Dampak Nyata.</span
+            >
+          </h2>
+          <p
+            class="font-medium text-lg mb-6"
+            style="color: var(--ink-70, rgba(28, 25, 23, 0.7))"
+          >
+            Punya ide yang bisa mempermudah hidup banyak orang? Atau sedang
+            mencari developer muda untuk timmu? Tinggalkan pesan, mari kita
+            membangun sesuatu yang bermanfaat.
+          </p>
+          <div
+            class="font-type text-sm mt-8"
+            style="color: var(--ink-50, rgba(28, 25, 23, 0.5))"
+          >
+            <p>Lokasi: Madiun, Indonesia</p>
+            <p>
+              Status: <span class="text-green-600 font-bold">Open to work</span>
+            </p>
+          </div>
+        </div>
+
+        <div class="w-full md:w-7/12 relative reveal reveal-delay-1">
+          <div
+            class="p-8 md:p-10 hand-drawn-border shadow-card relative z-10"
+            style="background-color: var(--surface)"
+          >
+            <div
+              class="washi-tape-subtle -top-4 right-1/2 translate-x-1/2 rotate-1"
+            ></div>
+
+            <form id="contactForm" class="space-y-6">
+              <input
+                type="text"
+                name="_honeypot"
+                class="hidden"
+                tabindex="-1"
+                autocomplete="off"
+              />
+
+              <div class="space-y-1 group">
+                <label
+                  for="nama"
+                  class="font-type text-xs font-bold uppercase tracking-wider transition-colors group-focus-within:text-terracotta"
+                  style="color: var(--ink-50, rgba(28, 25, 23, 0.6))"
+                  >Nama</label
+                >
+                <input
+                  type="text"
+                  id="nama"
+                  name="nama"
+                  required
+                  class="w-full bg-transparent border-b-2 focus:border-terracotta p-2 font-clean font-medium focus:outline-none transition-colors rounded-none"
+                  style="
+                    border-color: var(--ink-10, rgba(28, 25, 23, 0.2));
+                    color: var(--ink);
+                  "
+                />
+              </div>
+
+              <div class="space-y-1 group">
+                <label
+                  for="email"
+                  class="font-type text-xs font-bold uppercase tracking-wider transition-colors group-focus-within:text-terracotta"
+                  style="color: var(--ink-50, rgba(28, 25, 23, 0.6))"
+                  >Email</label
+                >
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  required
+                  class="w-full bg-transparent border-b-2 focus:border-terracotta p-2 font-clean font-medium focus:outline-none transition-colors rounded-none"
+                  style="
+                    border-color: var(--ink-10, rgba(28, 25, 23, 0.2));
+                    color: var(--ink);
+                  "
+                />
+              </div>
+
+              <div class="space-y-1 pt-2 group">
+                <label
+                  for="pesan"
+                  class="font-type text-xs font-bold uppercase tracking-wider transition-colors group-focus-within:text-terracotta"
+                  style="color: var(--ink-50, rgba(28, 25, 23, 0.6))"
+                  >Pesan</label
+                >
+                <textarea
+                  id="pesan"
+                  name="pesan"
+                  rows="3"
+                  required
+                  class="w-full border focus:border-terracotta p-3 rounded-md font-clean focus:outline-none transition-colors resize-y min-h-[100px] mt-1"
+                  style="
+                    background-color: var(--slate);
+                    border-color: var(--ink-10, rgba(28, 25, 23, 0.2));
+                    color: var(--ink);
+                  "
+                ></textarea>
+              </div>
+
+              <div
+                id="formStatus"
+                class="hidden torn-paper p-3 font-type text-sm text-center"
+                role="alert"
+                aria-live="polite"
+              ></div>
+
+              <div class="magnetic-wrap mt-6">
+                <button
+                  type="submit"
+                  id="submitBtn"
+                  class="magnetic w-full font-bold py-4 rounded-md hover:bg-terracotta hover:shadow-lg focus:outline-none transition-all flex justify-center items-center gap-2 group"
+                  style="background-color: var(--ink); color: var(--paper)"
+                >
+                  Kirim Pesan
+                  <i
+                    class="ph-bold ph-arrow-right group-hover:translate-x-1 transition-transform"
+                  ></i>
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <!-- ================================================ -->
+    <!-- FOOTER — TIDAK BERUBAH DI DARK MODE              -->
+    <!-- ================================================ -->
+    <footer
+      class="bg-ink text-white py-12 text-center border-t-4 border-terracotta"
+    >
+      <h2 class="font-clean font-black text-3xl mb-4 tracking-tighter">
+        Bhram.
+      </h2>
+      <div
+        class="font-type text-sm text-white/50 flex flex-col items-center gap-2"
+      >
+        <p>Empowering through code.</p>
+        <p>© 2026 Bhramadya Soffan Wicaksana.</p>
+      </div>
+    </footer>
+  </body>
+</html>
